@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <el-button @click="openNotice">打开notice</el-button>
+<!--   业务代码测试 -->
+  <my-test></my-test>
+<!--    <el-button @click="openNotice">打开notice</el-button>
     <div class="tree-area">
       <el-tree
           :data="data"
@@ -21,7 +23,7 @@
       </span>
       </el-tree>
       <div style="box-sizing:border-box;padding:10px;width:100%;height:1px;background:black;"></div>
-      <!--   render content   -->
+      &lt;!&ndash;   render content   &ndash;&gt;
       <el-tree
           :data="data"
           :props="defaultProps"
@@ -32,11 +34,11 @@
 
       <div style="box-sizing:border-box;padding:10px;width:100%;height:1px;background:black;"></div>
 
-      <!--     自己的树组件 -->
+      &lt;!&ndash;     自己的树组件 &ndash;&gt;
       <my-tree :treeData="treeData"></my-tree>
 
       <div style="box-sizing:border-box;padding:10px;width:100%;height:1px;background:black;"></div>
-      <!--      自己的手风琴组件-->
+      &lt;!&ndash;      自己的手风琴组件&ndash;&gt;
       <my-collapse :activeName="activeName">
         <my-collapse-item title="一致性 Consistency" name="1">
           <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
@@ -56,22 +58,21 @@
           <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
         </my-collapse-item>
       </my-collapse>
-    </div>
+    </div>-->
 
   </div>
 </template>
 
 <script>
-import myTree from './components/tree/Tree'
+/*import myTree from './components/tree/Tree'
 import myCollapse from './components/collapse/Collapse'
-import myCollapseItem from './components/collapse/CollapseItem'
+import myCollapseItem from './components/collapse/CollapseItem'*/
+import myTest from './pages/test/Test'
 
 export default {
   name: 'App',
   components: {
-    myTree,
-    myCollapse,
-    myCollapseItem
+    myTest,
   },
   data() {
     return {
