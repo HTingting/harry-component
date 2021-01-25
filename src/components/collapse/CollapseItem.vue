@@ -1,6 +1,7 @@
 <template>
   <div @click="handleHeaderClick">
     <div class="header">
+      <slot name="title"></slot>
       <h3>{{ title }}</h3>
     </div>
     <div class="wrap" v-show="isShow">
@@ -32,7 +33,7 @@ export default {
       //解决方法，通过inject，provide
       //console.log(this.$parent.activeName,this.name);
       //return this.$parent.activeName.indexOf(Number(this.name)) > -1;
-      return this.collapse.activeName.indexOf(Number(this.name)) > -1;
+      return this.collapse.activeValue.indexOf(Number(this.name)) > -1;
     }
   },
   methods:{

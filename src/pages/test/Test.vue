@@ -1,5 +1,61 @@
 <template>
   <div>
+    <!--搜索栏-->
+    <div class="search-bar clearfix">
+      <el-form class="search-from clearfix" label-width="100px" ref="searchForm" :model="searchForm">
+        <el-row>
+          <el-col :span="8" class="search-item-fif">
+            <el-form-item label="搜索关键字" class="search-input">
+              <el-input @keyup.native.enter="searchTableData" v-model="searchForm.keyword" placeholder="请输入申报流水号/ 事项名称等关键字">
+                <i class="el-icon-error el-input__icon"
+                   slot="suffix"
+                   style="cursor: pointer"
+                   v-show="searchForm.keyword!=''"
+                   @click="searchForm.keyword='';searchTableData()">
+                </i>
+                <el-button class="search-btn" slot="append" icon="el-icon-search" @click="searchTableData">查询</el-button>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-row>
+                <el-col :span="12">
+                  <el-form-item label="开始时间">
+                    <el-date-picker type="datetime" placeholder="选择日期" v-model="searchForm.startTime"
+                                    style="width: 100%;" @change="searchTableData"></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="办结时间">
+                    <el-date-picker type="datetime" placeholder="选择日期" v-model="searchForm.endTime"
+                                    style="width: 100%;" @change="searchTableData"></el-date-picker>
+                  </el-form-item>
+                </el-col>
+            </el-row>
+
+          </el-col>
+<!--          <el-col :span="4">
+
+          </el-col>-->
+          <el-col :span="4">
+            <el-form-item label="状态" label-width="50px">
+              <el-radio-group v-model="searchForm.status"  @change="searchTableData">
+                <el-radio label="">全部</el-radio>
+                <el-radio label="0">正常</el-radio>
+                <el-radio label="1">逾期</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <div>
+              <a class="el-button el-button--primary el-button--medium" href="javascript:;" @click.prevent="exportExcel">导出</a>
+              <a class="el-button el-button--primary el-button--medium" href="javascript:;" @click.prevent="refreshExcel">刷新</a>
+            </div>
+          </el-col>
+        </el-row>
+
+      </el-form>
+    </div>
     <el-collapse v-model="activestartTime" accordion>
       <el-collapse-item title="一致性 Consistency" name="1">
         <template slot="title">
@@ -87,8 +143,7 @@
       </el-collapse-item>
       <el-collapse-item title="承诺办结时间" name="3"></el-collapse-item>
     </el-collapse>
-
-    <!-- 修改时限对话框 -->
+     <!-- 修改时限对话框 -->
     <el-dialog width="600px" title="收货地址" :visible.sync="editDialogVisible">
       <template slot="title">
         <div class="dialog-title">修改承诺时限</div>
@@ -122,6 +177,12 @@ export default {
   startTime: "est",
   data(){
     return {
+      searchForm:{
+        keyword: '',
+        startTime: '',
+        endTime: '',
+        status: '',
+      },
       activestartTime:'1',
       tableData: [
           {
@@ -207,17 +268,38 @@ export default {
     }
   },
   mounted(){
-
+    //获取节点数据
   },
   methods:{
+    searchTableData(){
+      //获取时间戳
+      console.log(this.searchForm.startTime.getTime());
+      console.log(JSON.stringify(this.searchForm));
+    },
+    exportExcel(){
+
+    },
+    /**
+     * 刷新，整个页面刷新即可
+     */
+    refreshExcel(){
+      //
+    },
+    /**
+     * 编辑时长
+     * @param row
+     */
     editNode(row){
       console.log(row);
       this.editDialogVisible = true;
       this.currentEditNodeId = row.id;
     },
-    refresh(row){
+    refreshNode(row){
       console.log(row);
     },
+    /**
+     * 时限修改监听
+     */
     handleChange(){
 
     }
@@ -242,6 +324,32 @@ export default {
 /deep/.el-collapse-item__content{
   padding:15px 15px 0 15px !important;
 }
+/*搜索栏*/
+.search-bar{
+  overflow:hidden;
+  position:relative;
+}
+/deep/.search-input .el-input__inner{
+  width:260px;
+}
+/deep/.el-radio{
+  margin-right:15px;
+}
+/deep/.el-input-group__append{
+  background-color: #169AFF !important;
+  color:#fff !important;
+  border:1px solid #169AFF;
+  padding:0 13px !important;
+}
+.search-btns{
+  position:absolute;
+  right:0;
+  bottom:30px;
+}
+.search-btns a{
+  /*width:48px;height:23px;*/
+}
+
 .time-rule-item{
   width:100%;
   height:79px;
@@ -326,12 +434,14 @@ export default {
   font-size:14px;
   border:1px solid #FF7A77;
 }
-/deep/.el-table__expand-icon .el-icon-arrow-right:before {
- /* content:'';
-  width: 0; height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 10px solid red;*/
+/deep/.el-icon-arrow-right{
+  border: 5px solid transparent;
+  width: 0;
+  height: 0;
+  border-left-color: #575962;
+}
+/deep/.el-icon-arrow-right:before{
+  content:'';
 }
 /deep/.el-table td, .el-table th{
   padding:10px 0;
@@ -390,4 +500,8 @@ export default {
 /deep/.el-form-item__content{
   width:100px;
 }
+.search-from .el-input__inner{
+  height:37px;line-height:37px;
+}
+
 </style>
