@@ -112,7 +112,10 @@ export default {
             this.$refs.formRef.resetField();
         },
         /**
-         * 添加初始值,给props设置初始值
+         * 初始化formData的数据
+         * {
+         *     username:'阿黄',
+         * }
          */
         addInitValue(){
             const obj = {}
@@ -121,6 +124,7 @@ export default {
                     obj[v.prop] = v.initValue
                 }
             })
+            console.log('form----data',JSON.stringify(obj));
             this.formData = obj;
         }
     }

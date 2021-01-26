@@ -75,6 +75,7 @@ export default {
     inheritAttrs: false,
     name: "FormItem",
     props: {
+        value:{},
         itemOptions: {
             type: Object,
             default() {
@@ -90,6 +91,7 @@ export default {
         //双向绑定数据值
         currentVal:{
             get(){
+                console.log('获取----',this.value);
                 return this.value
             },
             set (val){
