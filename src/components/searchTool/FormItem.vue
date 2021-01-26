@@ -30,24 +30,37 @@
             </el-options>
         </el-select>
         <!--时间选择器, datetimerange / daterange -->
-<!--        <el-date-picker
-            v-if="isDatePickerMonthRange"
+        <el-date-picker
+            v-if="isDatePickerDateRange"
             v-model="currentVal"
             v-bind="bindProps"
             v-on="bindEvents"
-            type="monthrange"
-            size="mini"></el-date-picker>
-        &lt;!&ndash;时间选择器， monthrange &ndash;&gt;
+            :type="itemOptions.type || 'datetimerange'"
+            size="mini"
+            clearable
+            :picker-options="pickerOptionsRange"
+            start-placeholder="开始日期"
+            range-separator="至"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00','23:59:59']"
+            value-format="yyyy-MM-dd HH:mm:ss">
+        </el-date-picker>
+        <!--时间选择器， monthrange -->
         <el-date-picker
             v-if="isDatePickerMonthRange"
             v-model="currentVal"
             v-bind="bindProps"
             v-on="bindEvents"
-            :type="itemOptions.type"
+            type="monthrange"
             size="mini"
-            clearable>
+            clearable
+            :picker-options="pickerOptionsRangeMonth"
+            start-placeholder="开始日期"
+            range-separator="至"
+            end-placeholder="结束日期"
+            value-format="yyyy-MM">
         </el-date-picker>
-        &lt;!&ndash;other&ndash;&gt;
+        <!--other-->
         <el-date-picker
             v-if="isDatePickerOthers"
             v-model="currentVal"
@@ -55,7 +68,8 @@
             v-on="bindEvents"
             :type="itemOptions.type"
             size="mini"
-            clearable></el-date-picker>-->
+            clearable
+            placeholder="请选择日期"></el-date-picker>
         <!--级联选择器-->
         <el-cascader
             v-if="isCascader"
@@ -69,17 +83,94 @@
 </template>
 
 <script>
-import {} from '@/utils/tools'
+// elementui日期时间范围 快捷选项
+const pickerOptionsRange = {
+    shortcuts: [
+        {
+            text: '今天',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date(new Date().toDateString())
+                start.setTime(start.getTime())
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: '最近一周',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: '最近一个月',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+                picker.$emit('pick', [start, end])
+            }
+        }, {
+            text: '最近三个月',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+                picker.$emit('pick', [start, end])
+            }
+        }
+    ]
+}
 
+// elementui月份范围 快捷选项
+const pickerOptionsRangeMonth = {
+    shortcuts: [
+        {
+            text: '今年至今',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date(new Date().getFullYear(), 0)
+                picker.$emit('pick', [start, end])
+            }
+        },
+        {
+            text: '最近半年',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setMonth(start.getMonth() - 6)
+                picker.$emit('pick', [start, end])
+            }
+        },
+        {
+            text: '最近一年',
+            onClick (picker) {
+                const end = new Date()
+                const start = new Date()
+                start.setMonth(start.getMonth() - 12)
+                picker.$emit('pick', [start, end])
+            }
+        }
+    ]
+}
 export default {
     inheritAttrs: false,
     name: "FormItem",
+    /**
+     * 问题：为什么这里可以props接收value值？
+     * https://www.cnblogs.com/pwindy/p/12891806.html
+     * vue 父组件v-model传值，子组件props['value']接收；子组件$emit('input',XX）,去改变父组件中的值
+     */
     props: {
         value:{},
+        size:{},
         itemOptions: {
             type: Object,
             default() {
-                return {}
+                return {
+                    pickerOptionsRange: pickerOptionsRange,
+                    pickerOptionsRangeMonth: pickerOptionsRangeMonth,
+                }
             }
         }
     },
@@ -91,7 +182,7 @@ export default {
         //双向绑定数据值
         currentVal:{
             get(){
-                console.log('获取----',this.value);
+                console.log('获取----',this.$props);
                 return this.value
             },
             set (val){

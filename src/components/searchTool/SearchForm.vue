@@ -5,7 +5,7 @@
             <el-form-item v-for="(item ,index ) in formOptions"
                 :key="newKeys[index]"
                 :prop="item.prop"
-                :label="item.label"
+                :label="item.label ? (item.label + ':') : ''"
                 :rules="item.rules">
                 <my-form-item v-model="formData[item.prop]" :itemOptions="item"></my-form-item>
             </el-form-item>
