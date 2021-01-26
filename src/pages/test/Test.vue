@@ -37,7 +37,7 @@
 <!--          <el-col :span="4">
 
           </el-col>-->
-          <el-col :span="4">
+          <el-col :span="4" class="radio-group">
             <el-form-item label="状态" label-width="50px">
               <el-radio-group v-model="searchForm.status"  @change="searchTableData">
                 <el-radio label="">全部</el-radio>
@@ -502,6 +502,17 @@ export default {
 }
 .search-from .el-input__inner{
   height:37px;line-height:37px;
+}
+
+.radio-group .el-form-item{
+  display: flex;
+  align-items: center;
+}
+/deep/.radio-group .el-form-item__content{
+  margin-left:0px !important;
+}
+.radio-group .el-radio-group{
+  display:flex;
 }
 
 </style>
