@@ -5,7 +5,21 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './../src/assets/css/reset.css'
 
+//import mcommon from '@hanyk/mcommon'
+
 Vue.use(ElementUI);
+//Vue.use(mcommon);
+
+
+
+import MForm from './components/formTool/MForm'
+import MItem from './components/formTool/MItem'
+import MSelect from './components/formTool/MSelect'
+
+Vue.component(MForm.name, MForm)
+Vue.component(MItem.name, MItem)
+Vue.component(MSelect.name, MSelect)
+
 
 //引入自己的组件
 import notice from './components/notice/index'

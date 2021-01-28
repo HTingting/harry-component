@@ -46,7 +46,7 @@ export default {
         myFormItem
     },
     props: {
-        formOptions:{
+      formOptions:{
             type: Array,
             required: true,
             default (){
@@ -132,5 +132,11 @@ export default {
 </script>
 
 <style scoped>
-
+.search-form-box{
+  display:flex;
+  align-items: center;
+}
+.el-form-item{
+  margin-bottom:0 !important;
+}
 </style>
