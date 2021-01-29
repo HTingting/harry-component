@@ -4,7 +4,7 @@ const createChildren = (h, el, column, valueKey) => {
   const list = column.dataList || column.list || []
   return list.map(item => {
     let children
-    if (column.slots && column.slots.default) {
+    if (column.slots) {
       children = [column.slots.default.call(null, h, item)]
     } else {
       children = item[valueKey.label]
@@ -203,8 +203,9 @@ export default {
         const children = []
         const scopedSlots = {}
         Object.keys(slots).forEach(key => {
+          //如果是文本类型，直接添加到children。
           if (typeof slots[key] === 'function') {
-            scopedSlots[key] = slots[key].bind(null, h)
+            scopedSlots[key] = slots[key].bind(null, h);
           } else {
             children.push(
               h(
@@ -217,6 +218,7 @@ export default {
             )
           }
         })
+        console.warn('查看scopedSlots------',scopedSlots);
         const attrs = attributes.reduce(
           (obj, key) => {
             if (this.computedColumn[key]) obj[key] = this.computedColumn[key]
@@ -235,6 +237,11 @@ export default {
               label: componentType === 'el-checkbox' || componentType === 'el-radio' ? null : computedColumn.label
             },
             attrs: attrs,
+            //[不行]
+            //scopedSlots:Object.values(scopedSlots),
+            //访问作用域插槽，每个作用域插槽都是一个返回若干VNode的函数
+            //如果要用渲染函数向子组件中传递作用域插槽，可以利用 VNode 数据对象中的 scopedSlots 字段：
+            //数据格式返回正确了，但是这个属性不生效。搞不懂
             scopedSlots,
             on: listeners
           },

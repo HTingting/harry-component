@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--        <grand-father></grand-father>-->
-    <my-search-form :formOptions="formOptions" @onSearch="onSearch"></my-search-form>
+<!--    <my-search-form :formOptions="formOptions" @onSearch="onSearch"></my-search-form>-->
     <test-form></test-form>
     <!--   业务代码测试 -->
     <!--        <my-test></my-test>
@@ -72,7 +72,7 @@ import myCollapse from './components/collapse/Collapse'
 import myCollapseItem from './components/collapse/CollapseItem'
 import myTest from './pages/test/Test'*/
 /*import grandFather from './components/communication/grandFather'*/
-import mySearchForm from './components/searchTool/SearchForm'
+/*import mySearchForm from './components/searchTool/SearchForm'*/
 import testForm from './pages/testForm/testForm';
 
 export default {
@@ -83,7 +83,7 @@ export default {
     myCollapseItem,
     myTest,*/
     /* grandFather,*/
-    mySearchForm,
+   /* mySearchForm,*/
     testForm
   },
   data() {
